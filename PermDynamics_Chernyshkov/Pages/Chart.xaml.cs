@@ -25,6 +25,7 @@ namespace PermDynamics_Chernyshkov.Pages
         public double actualHeightCanvas = 0;
         public double maxValue = 0;
         double averageValue = 0;
+        Line averageLine;
 
         public DispatcherTimer dispatherTimer = new DispatcherTimer();
         public Chart(MainWindow mainWindow)
@@ -108,9 +109,12 @@ namespace PermDynamics_Chernyshkov.Pages
         public void ColorChart()
         {
             double value = mainWindow.pointsInfo[mainWindow.pointsInfo.Count - 1].value;
+
+            averageValue = 0;
             for (int i = 0; i < mainWindow.pointsInfo.Count; i++)
                 averageValue += mainWindow.pointsInfo[i].value;
             averageValue = averageValue / mainWindow.pointsInfo.Count;
+
             for (int i = 0; i < mainWindow.pointsInfo.Count; i++)
             {
                 if (value < averageValue)
@@ -120,10 +124,29 @@ namespace PermDynamics_Chernyshkov.Pages
             }
 
             canvas.Width = mainWindow.pointsInfo.Count * 20 + 300;
+            CreateAverageLine();
             scroll.ScrollToHorizontalOffset(canvas.Width);
 
             current_value.Content = "Тек. знач: " + Math.Round(value, 2);
             average_value.Content = "Сред. знач: " + Math.Round(averageValue, 2);
+        }
+
+        public void CreateAverageLine()
+        {
+            if (averageLine != null)
+                canvas.Children.Remove(averageLine);
+
+            double y = actualHeightCanvas - ((averageValue / maxValue) * actualHeightCanvas);
+
+            averageLine = new Line();
+            averageLine.X1 = 0;
+            averageLine.X2 = canvas.Width;
+            averageLine.Y1 = y;
+            averageLine.Y2 = y;
+            averageLine.Stroke = Brushes.Blue;
+            averageLine.StrokeThickness = 2;
+
+            canvas.Children.Add(averageLine);
         }
 
         public void Page_SizeChanged(object sender, SizeChangedEventArgs e)
