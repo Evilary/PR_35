@@ -27,7 +27,7 @@ namespace PermDynamics_Chernyshkov.Pages
         double averageValue = 0;
 
         public DispatcherTimer dispatherTimer = new DispatcherTimer();
-        public Chart()
+        public Chart(MainWindow mainWindow)
         {
             InitializeComponent();
 
