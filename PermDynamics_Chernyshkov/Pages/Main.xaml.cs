@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PermDynamics_Chernyshkov.Pages
 {
@@ -24,5 +13,14 @@ namespace PermDynamics_Chernyshkov.Pages
         {
             InitializeComponent();
         }
+
+        private void OpenPageChart(object sender, RoutedEventArgs e)
+        {
+            float value = Convert.ToInt32(tb_value.Text);
+
+            MainWindow.mainWindow.pointsInfo.Add(new Classes.PointInfo(value));
+            MainWindow.mainWindow.OpenPages(MainWindow.pages.chart);
+        }
+
     }
 }
